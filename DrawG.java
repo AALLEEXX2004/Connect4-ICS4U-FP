@@ -1,3 +1,7 @@
+import javax.swing.BorderFactory;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -7,31 +11,46 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.GridLayout;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseEvent;
 
-public class DrawG {
+public class DrawG implements ActionListener {
 	private JFrame frame;
-	private JPanel panel;
-	private JButton button;
-
+	private JButton button1;
+	private JButton button2;
 	//Initial setup
 	 public DrawG() {
 	        frame = new JFrame("Chess Board");
+	       
+	        button1 = new JButton();
+	        button1.setBounds(500,100, 100, 50);
+	        button1.addActionListener(e -> System.out.println("boo"));
+	        button1.setText("PvP");
+	        button1.setFocusable(false);
+	        
+	        button2 = new JButton();
+	        button2.setBounds(500,50, 100, 50);
+	        button2.addActionListener(e -> System.out.println("bee"));
+	        button2.setText("PvE");
+	        button2.setFocusable(false);
+	       
+	        
 	        frame.setSize(650, 450);
+	        frame.add(button1);
+	        frame.add(button2);
 	        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 	        frame.setPreferredSize(frame.getSize());
 	        frame.add(new MultiDraw(frame.getSize()));
 	        frame.pack();
-	        panel = new JPanel();
-	        panel = new JPanel();
-	        button= new JButton("Click me");
-	        panel.add(button);
+	      
+	        
+	        
 	        frame.setVisible(true);
-	        panel.setVisible(true);
 	        
 	    }
-	 	 public static void main(String... argv) {
+	 	 
+		public static void main(String... argv) {
 	        new DrawG();
 	       
 	    }
@@ -128,5 +147,12 @@ public class DrawG {
 		// TODO Auto-generated method stub
 		
 	}
-}
+	}
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	
 }
