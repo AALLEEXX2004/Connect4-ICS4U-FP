@@ -1,4 +1,3 @@
-
 public class chessboard {
 	/*
 	 * For the values on the boardGrid
@@ -6,26 +5,33 @@ public class chessboard {
 	 * 		1: player1's chess is placing here
 	 * 		2: player2's chess
 	 */
-	static int[][] boardGrid = new int[7][6];
+	
+	static int[][] boardGrid = new int[6][7];
 	public chessboard(){
-		for(int x=0;x<7;x++) {
-			for(int y=0;y<6;y++) {
+		for(int x=0;x<6;x++) {
+			for(int y=0;y<7;y++) {
 				boardGrid[x][y] = 0;
 			}
 		}
 	}
-	public void setChessOnBoard(int playerID,int colNo) {
-		for (int y=7;y>=0;y--) {
+	public static int setChessOnBoard(int playerID,int colNo) {
+		int y;
+		for (y=6;y>=0;y--) {
 			if(boardGrid[colNo][y]==0) {
 				boardGrid[colNo][y] = playerID;
-				break;
+				return y;
+				
 			}
 		}
+		return y;
 	}
-	public int readValueFromBoard(int x, int y){
+	public static int getPlayerID(int inputTimes) {
+		
+	}
+	public static int readValueFromBoard(int x, int y){
 		return boardGrid[x][y];
 	}
-	public int[] winCondition(int playerNo, int requiredChessNum) {
+	public static int[] winCondition(int playerNo, int requiredChessNum) {
 		 /*
 		  * 
 		  * 
@@ -120,7 +126,7 @@ public class chessboard {
 			int [] conditionCode = {0,0,-1,-1,-1};
 			return conditionCode;
 		}
-	public boolean isColFull(int columnNo) {
+	public static boolean isColFull(int columnNo) {
 		if(boardGrid[0][columnNo] !=0) {
 			return true;
 		}
