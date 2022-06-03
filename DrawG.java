@@ -54,7 +54,7 @@ public class DrawG implements ActionListener {
 	    }
 	 	 
 		public static void main(String... argv) {
-			
+			System.out.print(cols+"  "+rows);
 			valueGrid = new int[cols][rows];
 			board = new dataProcess(valueGrid);
 			
@@ -146,7 +146,7 @@ public class DrawG implements ActionListener {
 	        			conditionVars = board.winCondition(playerNo, 4);//
 	        			if(conditionVars[0] == 1) {
 	        				System.out.println(conditionVars[1]);
-	        				
+	        				repaint();
 	        				return;
 	        			}
 	        		turn++;
@@ -162,8 +162,9 @@ public class DrawG implements ActionListener {
 	        			int ySpot = board.setChessOnBoard(playerNo, xSpot);
 	        			//output where did user clicked on
 	        			paintOnUI(xSpot,ySpot,playerNo);
-	        			conditionVars = board.winCondition(playerNo, 4);//
+	        			conditionVars = board.winCondition(playerNo, 3);//
 	        			turn++;
+	        			repaint();
 	        			if(conditionVars[0] == 1) {
 	        				System.out.println(conditionVars[1]);
 	        				//在这写个锁定窗口输入还有胜利弹窗

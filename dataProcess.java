@@ -73,9 +73,9 @@ public class dataProcess {
 				requiredChess = requiredChess + playerNo;
 			}
 			//check on rows
-			for(int x=0;x<6;x++) {
+			for(int y=0;y<6;y++) {
 				numSerial = "";
-				for(int y=0;y<6;y++) {
+				for(int x=0;x<7;x++) {
 					numSerial = numSerial+boardGrid[x][y];
 					if(numSerial.contains(requiredChess)){
 						int[] conditionCode  = {1,playerNo,x,y,0};
@@ -87,10 +87,12 @@ public class dataProcess {
 			
 			
 			//check on volumes
-			for(int x=0;x<6;x++) {
+			for(int x=0;x<7;x++) {
 				numSerial = "";
 				for(int y=0;y<6;y++) {
-					numSerial = numSerial+boardGrid[y][x];
+					//System.out.println(x+"  "+y);
+					numSerial = numSerial+boardGrid[x][y];
+					//System.out.println(numSerial);
 					if(numSerial.contains(requiredChess)){
 						int[] conditionCode  = {1,playerNo,x,y,1};
 						return conditionCode;
@@ -126,7 +128,7 @@ public class dataProcess {
 				x=xy[0];
 				y=xy[1];
 				numSerial="";
-				while(x<6&&y<6) {
+				while(x<7&&y<6) {
 					numSerial = numSerial+boardGrid[x][y];
 					x++;
 					y++;
