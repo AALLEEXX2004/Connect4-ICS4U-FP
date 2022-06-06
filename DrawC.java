@@ -22,22 +22,22 @@ public class DrawC {
 		framein = new JFrame("Connect Four");
 	 
 	    button1 = new JButton();
-	    button1.addActionListener(e -> System.out.println("Mode 0"));
+	    button1.addActionListener(e -> getGameMode(0);DrawG.main(););
 	    button1.setText("PvP");
 	    button1.setFocusable(false);
 	        
 	    button2 = new JButton();
-	    button2.addActionListener(e -> System.out.println("Mode 1"));
+	    button2.addActionListener(e -> getGameMode(1);DrawG.main(););
 	    button2.setText("PvE-Hard");
 	    button2.setFocusable(false);
 	    
 	    button3 = new JButton();
-	    button3.addActionListener(e -> System.out.println("Mode 2"));
+	    button3.addActionListener(e -> getGameMode(1);DrawG.main(););
 	    button3.setText("PvE-Medium");
 	    button3.setFocusable(false);
 
 	    button4 = new JButton();
-	    button4.addActionListener(e -> System.out.println("Mode 3"));
+	    button4.addActionListener(e -> getGameMode(1);DrawG.main(););
 	    button4.setText("PvE-Easy");
 	    button4.setFocusable(false);
 
