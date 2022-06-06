@@ -5,7 +5,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.*;
- 
+ /* 
+ *author: Alex Liang
+ *the window after the game over,
+ *get who wins the game as parameter
+ *
+ *
+ *
+ */
 public class gameOverWindow extends JFrame implements ActionListener{
 	
 	
