@@ -12,6 +12,17 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 public class DrawG implements ActionListener {
+	/*
+	 * @author: Ivan Liu
+	 * 
+	 * This class is the GUI for getting user input 
+	 * and output to the actually victory/defeat and other processing part of program
+	 * then those put will return the messages to here and shows to user
+	 * and the windows here will be call out every time user clicks PVP or PVE on menu
+	 * every click represent an independent game  
+	 * commit by Alex Liang
+	 * 
+	 */
 	private JFrame frame;
 	private JButton button1;
 	private JButton button2;
@@ -20,6 +31,7 @@ public class DrawG implements ActionListener {
 	public static int rows = 6;
     public static int cols = 7;
 	private static int[][] valueGrid;
+	private static int gameStatus = 0;//for check game is over or still continue,0 fro continue, 1 for player1 win, 2for player2 win, 3 for draw;
 	private static int mode;//0 represent PVP mode,1 represent PVE mode
 	private static int AIlvl;
 	//Initial setup
@@ -54,7 +66,7 @@ public class DrawG implements ActionListener {
 	    }
 	 	 
 		public static void main(String... argv) {
-			System.out.print(cols+"  "+rows);
+			//System.out.print(cols+"  "+rows);
 			valueGrid = new int[cols][rows];
 			board = new dataProcess(valueGrid);
 			
@@ -90,6 +102,13 @@ public class DrawG implements ActionListener {
 	        	//当PVE 且电脑先手时，第一步须在鼠标触发前写入矩阵且画在UI上
 	        	if(mode == 1&& turn == 1) {
 	        		
+	        		
+	        		
+	        		
+	        		
+	        		
+	        		
+	        		
 	        	}
 	        }
 
@@ -117,8 +136,12 @@ public class DrawG implements ActionListener {
 	        	}
 
 	        	g2.setColor(new Color(255, 255, 255));
-       
-	        	g2.drawString("pvp or pve",450,200);
+	        	if(mode == 0) {
+	        		g2.drawString("PVP",450,200);
+	        	}else {
+	        		g2.drawString("PVE",450,200);
+	        	}
+	        	
            
 
 	        }
@@ -128,7 +151,10 @@ public class DrawG implements ActionListener {
         		}else if(playerID == 2){
         			grid[ySpot][xSpot]=new Color(255,255,0);
         		}
-        		System.out.println(xSpot + " " + ySpot);
+        		//System.out.println(xSpot + " " + ySpot);
+	        }
+	        public void gameOver(int gameStatus) {
+	        	new gameOverWindow(gameStatus);
 	        }
 	        public void mousePressed(MouseEvent e) {
 	        	int[] conditionVars;
@@ -137,15 +163,22 @@ public class DrawG implements ActionListener {
 	        	//int y = e.getY();
 	        	int xSpot = x/cellWidth;
 	        	//int ySpot = y/cellWidth;
+	        	if(DrawG.gameStatus !=0) {
+	        		gameOver(gameStatus);
+	        		
+	        		return;
+	        	}
 	        	if(mode == 0){
 	        		if(xSpot>=0&&xSpot<7&&!dataProcess.isColFull(xSpot)) {
 	        			playerNo = board.getPlayerID(turn);
-	        			int ySpot = board.setChessOnBoard(playerNo, xSpot);
+	        			int ySpot = board.setPieceOnBoard(playerNo, xSpot);
 	        			//output where did user clicked on
 	        			paintOnUI(xSpot,ySpot,playerNo);
 	        			conditionVars = board.winCondition(playerNo, 4);//
 	        			if(conditionVars[0] == 1) {
 	        				System.out.println(conditionVars[1]);
+	        				gameStatus = conditionVars[1];
+	        				gameOver(conditionVars[1]);
 	        				repaint();
 	        				return;
 	        			}
@@ -159,7 +192,7 @@ public class DrawG implements ActionListener {
 	        		if(xSpot>=0&&xSpot<7&&!dataProcess.isColFull(xSpot)) {
 	        			playerNo=1;
 	        		
-	        			int ySpot = board.setChessOnBoard(playerNo, xSpot);
+	        			int ySpot = board.setPieceOnBoard(playerNo, xSpot);
 	        			//output where did user clicked on
 	        			paintOnUI(xSpot,ySpot,playerNo);
 	        			conditionVars = board.winCondition(playerNo, 3);//
@@ -167,23 +200,32 @@ public class DrawG implements ActionListener {
 	        			repaint();
 	        			if(conditionVars[0] == 1) {
 	        				System.out.println(conditionVars[1]);
+	        				gameOver(conditionVars[1]);
+	        				
 	        				//在这写个锁定窗口输入还有胜利弹窗
 	        				return;
 	        			}
 	        			int[][] dataOnBoard = board.readValueFromBoard();
 	        			/*int[] xy = AI落子的方法名[dataOnBoard,AIlvl]; 
-	        			*int[] ySpot = board.setChessOnBoard(2,int[0])把上一行得出的值写入矩阵
+	        			*int[] ySpot = board.setPieceOnBoard(2,int[0])把上一行得出的值写入矩阵
 	        			*conditionVars = board.winCondition(playerNo, 4);
-	        			*if(conditionVars[0] == 1) {
-	        			*	System.out.println(conditionVars[1]);
-	        			*	同169
-	        			*	return;
+	        			*
 	        			*}
 	        			*/
+	        			if(conditionVars[0] == 1) {
+	        				System.out.println(conditionVars[1]);
+	        				gameOver(conditionVars[1]);
+	        				return;
+	        			}
 	        		}
 	        		turn++;
 	        	}
-	        	//平局判定写这
+	        	//draw
+	        	if(turn == 42){
+	        		gameStatus = 3;
+	        		gameOver(gameStatus);
+	        		return;
+	        	}
 	        	repaint();
 	        }
 	       

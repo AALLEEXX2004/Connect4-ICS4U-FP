@@ -1,16 +1,25 @@
 public class dataProcess {
 	/*
-	 * For the values in the boardGrid
+	 * @author: Alex Liang
+	 * some functions for game mechanics
+	 * include:
+	 * store the inputs(pieces) by a 2D array 
+	 * setting piece on the right position
+	 * determine the start player
+	 * read the value from an exactly position/the whole board
+	 * the game mechanics for victory/defeat judging
+	 */
+	
+	static int[][] boardGrid;
+	/*For the values in the boardGrid
 	 * 		0: no chess here
 	 * 		1: player1's chess is placing here
 	 * 		2: player2's chess
 	 */
-	
-	static int[][] boardGrid;
 	public dataProcess(int[][] grid){
 		boardGrid = grid;
 	}
-	public int setChessOnBoard(int playerID,int colNo) {
+	public int setPieceOnBoard(int playerID,int colNo) {
 		int y;
 		for (y=5;y>=0;y--) {
 			if(boardGrid[colNo][y]==0) {
