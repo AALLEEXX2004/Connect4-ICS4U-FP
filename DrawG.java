@@ -4,6 +4,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 import java.awt.Dimension;
@@ -17,33 +20,50 @@ import java.awt.event.MouseEvent;
 
 public class DrawG implements ActionListener {
 	private JFrame frame;
-	private JButton button1;
-	private JButton button2;
+	private JMenuBar menubar;
 	//Initial setup
 	 public DrawG() {
 	        frame = new JFrame("Chess Board");
 	       
-	        button1 = new JButton();
-	        button1.setBounds(500,100, 100, 50);
-	        button1.addActionListener(e -> System.out.println("boo"));
-	        button1.setText("PvP");
-	        button1.setFocusable(false);
 	        
-	        button2 = new JButton();
-	        button2.setBounds(500,50, 100, 50);
-	        button2.addActionListener(e -> System.out.println("bee"));
-	        button2.setText("PvE");
-	        button2.setFocusable(false);
 	       
 	        
 	        frame.setSize(650, 450);
-	        frame.add(button1);
-	        frame.add(button2);
+	        
 	        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 	        frame.setPreferredSize(frame.getSize());
 	        frame.add(new MultiDraw(frame.getSize()));
 	        frame.pack();
+	      //add menu
+	        menubar = new JMenuBar();
+	        frame.setJMenuBar(menubar);
+	        
+	        JMenu pvp = new JMenu("PVP");
+	        menubar.add(pvp);
+	       
+	        JMenuItem hard = new JMenuItem("Hard");
+	        JMenuItem medium = new JMenuItem("Medium");
+	        JMenuItem easy = new JMenuItem("Easy");
+	        
+	        
+	        JMenu pve = new JMenu("PVE");
+	        menubar.add(pve);
 	      
+	        pve.add(hard);
+	        pve.add(medium);
+	        pve.add(easy);
+	       //add action 
+	        class exitaction implements ActionListener{
+	        	public void actionPerformed (ActionEvent c) {
+	        		System.out.println("you have choosen hard");
+	        	}
+	        }
+	        
+	        hard.addActionListener(new exitaction());
+	        
+	        
+
+	        
 	        
 	        
 	        frame.setVisible(true);
