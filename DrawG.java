@@ -99,9 +99,13 @@ public class DrawG implements ActionListener {
 	        	}
 	        	
 	        	
-	        	//µ±PVE ÇÒµçÄÔÏÈÊÖÊ±£¬µÚÒ»²½ĞëÔÚÊó±ê´¥·¢Ç°Ğ´Èë¾ØÕóÇÒ»­ÔÚUIÉÏ
+	        	//å½“PVE ä¸”ç”µè„‘å…ˆæ‰‹æ—¶ï¼Œç¬¬ä¸€æ­¥é¡»åœ¨é¼ æ ‡è§¦å‘å‰å†™å…¥çŸ©é˜µä¸”ç”»åœ¨UIä¸Š
 	        	if(mode == 1&& turn == 1) {
 	        		
+	        		// this following methods return the col for later use
+	        	//int col=game.AILevelOne(valueGrid); 
+	        	//int col=game.AILevelTwo(valueGrid); 
+	        	//int col=game.AILevelThree(valueGrid); 
 	        		
 	        		
 	        		
@@ -184,7 +188,7 @@ public class DrawG implements ActionListener {
 	        			}
 	        		turn++;
 	        		}
-	        	}else if(mode == 1) {//PVEÄ£Ê½Ê±µÄÊó±ê´¥·¢ÊÂ¼ş
+	        	}else if(mode == 1) {//PVEæ¨¡å¼æ—¶çš„é¼ æ ‡è§¦å‘äº‹ä»¶
 	        		/*
 	        		 *
 	        		 * 
@@ -202,12 +206,16 @@ public class DrawG implements ActionListener {
 	        				System.out.println(conditionVars[1]);
 	        				gameOver(conditionVars[1]);
 	        				
-	        				//ÔÚÕâĞ´¸öËø¶¨´°¿ÚÊäÈë»¹ÓĞÊ¤Àûµ¯´°
+	        				//åœ¨è¿™å†™ä¸ªé”å®šçª—å£è¾“å…¥è¿˜æœ‰èƒœåˆ©å¼¹çª—
 	        				return;
 	        			}
 	        			int[][] dataOnBoard = board.readValueFromBoard();
-	        			/*int[] xy = AIÂä×ÓµÄ·½·¨Ãû[dataOnBoard,AIlvl]; 
-	        			*int[] ySpot = board.setPieceOnBoard(2,int[0])°ÑÉÏÒ»ĞĞµÃ³öµÄÖµĞ´Èë¾ØÕó
+	        			/*int[] xy = AIè½å­çš„æ–¹æ³•å[dataOnBoard,AIlvl]; 
+	        			*int[] ySpot = board.setPieceOnBoard(2,int[0])æŠŠä¸Šä¸€è¡Œå¾—å‡ºçš„å€¼å†™å…¥çŸ©é˜µ
+					// å¦‚æœæ˜¯å•çº¯è½å­æ˜¯ï¼š boolean placeDisc(int [][]grid; int col; int DiscValue);
+	        			 * //å¦‚æœè¦return colçš„çš„è¯å°±æ˜¯ //int col=game.AILevelOne(valueGrid); 
+                	        	//int col=game.AILevelTwo(valueGrid); 
+                	        	//int col=game.AILevelThree(valueGrid);
 	        			*conditionVars = board.winCondition(playerNo, 4);
 	        			*
 	        			*}
