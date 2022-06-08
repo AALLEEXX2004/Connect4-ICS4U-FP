@@ -19,6 +19,13 @@ public class dataProcess {
 	public dataProcess(int[][] grid){
 		boardGrid = grid;
 	}
+	public dataProcess() {
+		for(int x=0;x<7;x++) {
+			for(int y=0;y<6;y++) {
+				boardGrid[x][y]=0;
+			}
+		}
+	}
 	public int setPieceOnBoard(int playerID,int colNo) {
 		int y;
 		for (y=5;y>=0;y--) {
