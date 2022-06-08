@@ -32,9 +32,9 @@ public class boardUI implements ActionListener {
 	public static int rows = 6;
     public static int cols = 7;
 	private static int[][] valueGrid;
-	private static int gameStatus = 0;//for check game is over or still continue,0 fro continue, 1 for player1 win, 2for player2 win, 3 for draw;
-	private static int mode = 1 ;//0 represent PVP mode,1 represent PVE mode
-	private static int AIlvl = 2;
+	static int gameStatus = 0;//for check game is over or still continue,0 fro continue, 1 for player1 win, 2for player2 win, 3 for draw;
+	private static int mode = 0 ;//0 represent PVP mode,1 represent PVE mode
+	private static int AIlvl = 0;
 	//Initial setup
 	 public boardUI() {
 	        frame = new JFrame("Chess Board");
@@ -81,8 +81,8 @@ public class boardUI implements ActionListener {
 			AIlvl = aiLvl;
 		}
 	 public static class MultiDraw extends JPanel  implements MouseListener {
-	        int startX = 10;
-	        int startY = 10;
+	        int startX = 20;
+	        int startY = 20;
 	        int cellWidth = 60;
 	        int turn = dataProcess.startPlayer();
 	       
@@ -90,9 +90,9 @@ public class boardUI implements ActionListener {
 	        Color[][] grid = new Color[rows][cols];
 
 	//Draw grid
-	        public MultiDraw(Dimension dimension) {
-	        	setSize(dimension);
-	        	setPreferredSize(dimension);
+	        public MultiDraw(Dimension d) {
+	        	setSize(d);
+	        	setPreferredSize(d);
 	        	addMouseListener(this);
 	        	int x = 0;
 	        	for (int row = 0; row < grid.length; row++) {
@@ -101,8 +101,6 @@ public class boardUI implements ActionListener {
 	        			
 	        		}
 	        	}
-	        	
-	        	
 	        	//当PVE 且电脑先手时，第一步须在鼠标触发前写入矩阵且画在UI上
 	        	if(mode == 1&& turn == 1) {
 	        		
@@ -127,8 +125,8 @@ public class boardUI implements ActionListener {
 	        	Dimension d = getSize();
 	        	g2.setColor(new Color(160,238,225));
 	        	g2.fillRect(0,0,d.width,d.height);
-	        	startX = 0;
-	        	startY = 0;
+	        	startX = 20;
+	        	startY = 20;
 
 	        	for (int row = 0; row < grid.length; row++) {
 	        			for (int col = 0; col < grid[0].length; col++) {
