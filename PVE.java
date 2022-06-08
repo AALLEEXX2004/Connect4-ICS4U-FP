@@ -49,7 +49,7 @@ public class PVE
     public boolean placeDisc(int [][] grid, int col, int playerDisc){
         for(int i=(grid.length-1); i>=0; i--){
             if (grid[i][col]==0){
-            grid[i][col]=playerDisc;
+
             return true;
             }
          }
@@ -102,7 +102,7 @@ public class PVE
     }
     
     public boolean CheckPlacement(int grid[][], int row, int col){
-        if((grid[row][col-1]==1)||grid[row][col-1]==4){
+        if((grid[row][col-1]==1)||grid[row][col-1]==2){
             return true;
         }
         else{ 
@@ -112,17 +112,17 @@ public class PVE
 
     public int CheckTwo (int grid[][]){
     for(int i=0; i<grid.length; i++){
-            for(int j =0; j < grid[i].length; j++){
+            for(int j =0; j < grid[0].length; j++){
                 
             //02020
-            if(i<2){
-                   if ((grid[i][j]==grid[i][j+2])&&(grid[i][j+2]==grid[i][j+4])&&(grid[i][j+4]==0)&&(grid[i][j+1]==grid[i][j+2])&&grid[i][j+3]==4){
+            if((j+3)<6){
+                   if ((grid[i][j]==grid[i][j+2])&&(grid[i][j+2]==grid[i][j+4])&&(grid[i][j+4]==0)&&(grid[i][j+1]==grid[i][j+3])&&grid[i][j+3]==4){
                      //placeDisc(grid,i,4);
                      return j+2;
                    }
             }
             //0220
-            if(i<3){
+            if((j+2)<6){
                 if((grid[i][j]==grid[i][j+3])&&(grid[i][j+3]==0)&&(grid[i][j+1]==grid[i][j+2])&&(grid[i][j+2]==4)){
                     //placeDisc(grid,i,4);
                     return j;
@@ -150,41 +150,41 @@ public class PVE
                                return j;
                             }
                     }
-                    else if((grid[i+1][j]==0)){
+                    else if((grid[i][j+1]==0)){
                           if(i==grid.length){
                                //grid[i+1][j]=4;
-                               return j;
+                               return j+1;
                             }
-                            else if(CheckPlacement(grid,i+1,j)){
+                            else if(CheckPlacement(grid,i,j+1)){
                                 //grid[i+1][j]=4;
-                               return j;
+                               return j+1;
                             }
                     }
-                       else if((grid[i+2][j]==0)){
+                       else if((grid[i][j+2]==0)){
                            if(i==grid.length){
                                //grid[i+2][j]=4;
-                               return j;
+                               return j+2;
                             }
-                            else if(CheckPlacement(grid,i+2,j)){
+                            else if(CheckPlacement(grid,i,j+2)){
                                 //grid[i+2][j]=4;
-                               return j;
+                               return j+2;
                             }
                        
                     }
-                       else if((grid[i-3][j]==0)){
+                       else if((grid[i][j+3]==0)){
                        if(i==grid.length){
                                //grid[i+3][j]=4;
-                               return j;
+                               return j+3;
                             }
-                            else if(CheckPlacement(grid,i+3,j)){
+                            else if(CheckPlacement(grid,i,j+3)){
                                // grid[i+3][j]=4;
-                               return j;
+                               return j+3;
                             }
                     } 
                 }
             }   
     
-            if((i+3)<=grid.length){
+            if((i+3)<=grid.length-1){
                    if((grid[i][j]+grid[i+1][j]+grid[i+2][j]+grid[i+3][j]==DiscValue*3)&&(grid[i][j]==0)){
                        //grid[i][j]=DiscValue;
                         return j;
@@ -253,43 +253,52 @@ public class PVE
 }   
     
     public int AILevelOne(int grid[][]){
-    boolean position;
+    boolean position=false;
+    int choice;
       do{     
       Random rdm = new Random ();
-      int choice = rdm.nextInt(8);
+      choice = rdm.nextInt(8);
        position= placeDisc(grid, choice, AIDisc);
        if(position == true){
            return choice;
            
        }
-      return 0;
+      
     }while(position==false);
-     
+     return 0;
     }
     
 public int AILevelTwo(int grid[][]){
+    
     if(CheckThree(grid,4)!=0){
         return CheckThree(grid,4);
     }
-    else if(CheckTwo(grid)!=0){
+    if(CheckTwo(grid)!=0){
        return CheckTwo(grid);
     }
     else{
         return AILevelOne(grid);
     }
     }
+
 public int AILEvelThree(int grid[][]){
+    int col;
     if(CheckThree(grid,1)!=0){
-       return CheckThree(grid,1); 
+        
+        col= CheckThree(grid,1); 
+        return col;
     }
-    else if(CheckThree(grid,4)!=0){
-       return CheckThree(grid,4);
+     if(CheckThree(grid,4)!=0){
+       col= CheckThree(grid,4);
+       return col;
     }
-    else if(CheckTwo(grid)!=0){
-       return CheckTwo(grid);
+     if(CheckTwo(grid)!=0){
+       col= CheckTwo(grid);
+       return col;
     }
     else{
-      return  AILevelOne(grid);
+      col=  AILevelOne(grid);
+      return col;
     }
     
 }
