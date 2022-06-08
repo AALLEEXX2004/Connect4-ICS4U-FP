@@ -102,7 +102,7 @@ public class PVE
     }
     
     public boolean CheckPlacement(int grid[][], int row, int col){
-        if((grid[row][col-1]==1)||grid[row][col-1]==2){
+        if((grid[row][col-1]==1)||grid[row][col-1]==4){
             return true;
         }
         else{ 
