@@ -116,14 +116,14 @@ public class PVE
                 
             //02020
             if(i<2){
-                   if ((grid[i][j]==grid[i][j+2])&&(grid[i][j+2]==grid[i][j+4])&&(grid[i][j+4]==0)&&(grid[i][j+1]==grid[i][j+2])&&grid[i][j+3]==2){
+                   if ((grid[i][j]==grid[i][j+2])&&(grid[i][j+2]==grid[i][j+4])&&(grid[i][j+4]==0)&&(grid[i][j+1]==grid[i][j+2])&&grid[i][j+3]==4){
                      //placeDisc(grid,i,4);
                      return j+2;
                    }
             }
             //0220
             if(i<3){
-                if((grid[i][j]==grid[i][j+3])&&(grid[i][j+3]==0)&&(grid[i][j+1]==grid[i][j+2])&&(grid[i][j+2]==2)){
+                if((grid[i][j]==grid[i][j+3])&&(grid[i][j+3]==0)&&(grid[i][j+1]==grid[i][j+2])&&(grid[i][j+2]==4)){
                     //placeDisc(grid,i,4);
                     return j;
                 }
