@@ -6,7 +6,7 @@ import java.awt.event.MouseListener;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.plaf.basic.BasicSplitPaneUI.BasicHorizontalLayoutManager;
+
 
 //import boardUI.MultiDraw;
 
@@ -14,18 +14,22 @@ import javax.swing.*;
 
 import java.awt.*;
 
-public class menuUI
+public class menuUI implements ActionListener,MouseListener
 
 {
 
-	private static final long serialVersionUID = 1L;
+	
+	
 	static final int WIDTH=700;
 	static final int HEIGHT=500;
 	static final int BOARDWIDTH = 500;
 	
 	JFrame frame;
-	JPanel chessBoardPanel;
+	static JPanel chessBoardPanel;
 	JPanel infoPanel;
+	
+	private static dataProcess board ;
+	private static PVE pveObj ;
 	
 	public static int rows = 6;
     public static int cols = 7;
@@ -33,6 +37,7 @@ public class menuUI
 	private static int gameStatus = 0;//for check game is over or still continue,0 fro continue, 1 for player1 win, 2for player2 win, 3 for draw;
 	private static int mode = 0 ;//0 represent PVP mode,1 represent PVE mode
 	private static int AIlvl = 0;
+	public static int turn =0;
 
 	public menuUI(){
 
@@ -40,7 +45,7 @@ public class menuUI
 		//intialize window
 		frame =new JFrame("Connect 4");
 		JMenuBar menubar1=new JMenuBar();
-		menubar1=menuUI.setMenuBar(menubar1);
+		menubar1=setMenuBar(menubar1);
 		frame.setJMenuBar(menubar1);
 		frame.setBackground(Color.lightGray);
 		frame.setResizable(false);
@@ -54,7 +59,8 @@ public class menuUI
 		chessBoardPanel.setLocation(0, 0);
 		chessBoardPanel.setSize(BOARDWIDTH, HEIGHT);
 		chessBoardPanel.setBackground(Color.lightGray);
-		
+		//actionListeners mouseListener = new actionListeners();
+    	chessBoardPanel.addMouseListener(this);
 		infoPanel.setLocation(500,0);
 		infoPanel.setSize(WIDTH-BOARDWIDTH, HEIGHT);
 		infoPanel.setBackground(Color.GRAY);
@@ -81,14 +87,14 @@ public class menuUI
 
 	}
 	
-	public static JMenuBar setMenuBar(JMenuBar toolBar) {
+	public JMenuBar setMenuBar(JMenuBar toolBar) {
 		
-		actionListeners toolbarListener = new actionListeners();
+		//actionListeners toolbarListener = new actionListeners();
 		
 		JMenu menu1;
 		JMenu menu2;
-		JMenuItem subMenu3;
-		JMenu subMenu4;
+		JMenuItem subMenuPVP;
+		JMenu subMenuPVE;
 		JMenuItem item0;
 		JMenuItem item1;
 		JMenuItem item2;
@@ -102,8 +108,8 @@ public class menuUI
 		item1=new JMenuItem("History");
 		item2=new JMenuItem("Exit");
 
-		subMenu3=new JMenuItem("PVP");
-		subMenu4=new JMenu("PVE");
+		subMenuPVP=new JMenuItem("PVP");
+		subMenuPVE=new JMenu("PVE");
 		
 		 item5=new JMenuItem("Easy");
 		 item6=new JMenuItem("Normal");
@@ -117,13 +123,13 @@ public class menuUI
 		 menu1.addSeparator();
 		 menu1.add(item2);
 		
-		menu2.add(subMenu3);
+		menu2.add(subMenuPVP);
 		menu2.addSeparator();
-		menu2.add(subMenu4);
+		menu2.add(subMenuPVE);
 		
-		subMenu4.add(item5);
-		subMenu4.add(item6);
-		subMenu4.add(item7);
+		subMenuPVE.add(item5);
+		subMenuPVE.add(item6);
+		subMenuPVE.add(item7);
 
 		toolBar.add(menu1);
 		toolBar.add(menu2);
@@ -132,13 +138,13 @@ public class menuUI
 		
 		
 		//actionListers for menus
-		item0.addActionListener(toolbarListener);
-		item1.addActionListener(toolbarListener);
-		item2.addActionListener(toolbarListener);
-		subMenu3.addActionListener(toolbarListener);
-		item5.addActionListener(toolbarListener);
-		item6.addActionListener(toolbarListener);
-		item7.addActionListener(toolbarListener);
+		item0.addActionListener(this);
+		item1.addActionListener(this);
+		item2.addActionListener(this);
+		subMenuPVP.addActionListener(this);
+		item5.addActionListener(this);
+		item6.addActionListener(this);
+		item7.addActionListener(this);
 		return toolBar;
 	}
 	public static JPanel setInfoPanel(JPanel infoPanel) {
@@ -146,24 +152,38 @@ public class menuUI
 		
 		return infoPanel;
 	}
+	
+	public void gameOver(int gameStatus) {
+    	new gameOverWindow(gameStatus);
+    }
+	public void restart() {
+
+		chessBoardPanel.add(new MultiDraw(chessBoardPanel.getSize()));
+		chessBoardPanel.repaint();
+	}
 	public static class MultiDraw extends JPanel {
-	        int startX = 10;
+	        /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+			int startX = 10;
 	        int startY = 10;
 	        int cellWidth = 65;
-	        int turn = dataProcess.startPlayer();
-	        final static int rows = 6;
-	        final static int cols = 7;
-	        int mode;
+	        
+	       
+	       // turn = dataProcess.startPlayer();
 	        
 	        //Set details
 	        static Color[][] grid = new Color[rows][cols];
-	        actionListeners mouseListener = new actionListeners();
+	        
+	        
+	        
 	//Draw grid
 	        public MultiDraw(Dimension dimension) {
 	        	setSize(dimension);
 	        	setPreferredSize(dimension);
-	        	addMouseListener(mouseListener);
-	        	int x = 0;
+	        	
+	        	
 	        	for (int row = 0; row < grid.length; row++) {
 	        		for (int col = 0; col < grid[0].length; col++) {
 	        			grid[row][col] = new Color(255,255,255);
@@ -173,7 +193,7 @@ public class menuUI
 	        	
 	        	
 	        	//当PVE 且电脑先手时，第一步须在鼠标触发前写入矩阵且画在UI上
-	        	/*if(mode == 1&& turn == 1) {
+	        	if(mode == 1&& turn == 1) {
 	        		
 	        		// this following methods return the col for later use
 	        		int col=pveObj.AILevelOne(valueGrid); 
@@ -187,7 +207,8 @@ public class menuUI
 	        		
 	        		
 	        	}
-	        	*/
+	        	
+	        	
 	        }
 
 	        @Override
@@ -214,7 +235,7 @@ public class menuUI
 	        	g2.setColor(new Color(255, 255, 255));
 	        	
         
-
+	        	
 	        }
 	        public static void paintOnUI(int xSpot,int ySpot,int playerID) {
 	        	if(playerID == 1) {
@@ -224,16 +245,17 @@ public class menuUI
      		}
      		//System.out.println(xSpot + " " + ySpot);
 	        }
+	       
 	        public void gameOver(int gameStatus) {
 	        	new gameOverWindow(gameStatus);
 	        }
 	
-
-	
+	        
+	      
 	
 
 }
-	public static class actionListeners implements ActionListener,MouseListener{
+	//public static class actionListeners implements ActionListener,MouseListener{
 		
 		
 		
@@ -243,20 +265,34 @@ public class menuUI
 	        //System.out.println(command);
 	        switch(command) {
 	        case "Restart the Game":
+	        	restart();
 	        	
 	        	System.out.println(command);
+	        	
 	        	break;
 	        case "PVP":
 	        	System.out.println(command);
+	        	board =new dataProcess();
+	        	mode=0;
+	        	AIlvl = 0;
 	        	break;
 	        case "Easy":
 	        	System.out.println(command);
+	        	board =new dataProcess();
+	        	mode = 1;
+	        	AIlvl = 1;
 	        	break;
 	        case "Normal":
 	        	System.out.println(command);
+	        	board =new dataProcess();
+	        	mode = 1;
+	        	AIlvl = 2;
 	        	break;
 	        case "Hard":
 	        	System.out.println(command);
+	        	board =new dataProcess();
+	        	mode = 1;
+	        	AIlvl = 3;
 	        	break;
 	        case "History" :
 	        	System.out.println(command);
@@ -269,6 +305,12 @@ public class menuUI
 	        
 	      }
 
+		public static void main(String[] args){
+			valueGrid = new int[cols][rows];
+			board = new dataProcess(valueGrid);
+			new menuUI();
+		}
+
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			// TODO Auto-generated method stub
@@ -278,18 +320,83 @@ public class menuUI
 		@Override
 		public void mousePressed(MouseEvent e) {
 			// TODO Auto-generated method stub
-			
-	    	int x = e.getX();
-	    	int y = e.getY();
-	    	int cellWidth = 65;
-	    	int xSpot = x/cellWidth;
-	    	int ySpot = y/cellWidth;
-	    	int playerID =1;
-	    	System.out.println(x+","+y);
-	    	menuUI.MultiDraw.paintOnUI(xSpot,ySpot,playerID);    	
-	    	//int[] info= {xSpot,ySpot,playerID};
-	    	//repaint();
-	    	
+			int[] conditionVars;
+        	int playerNo;
+        	int x = e.getX();
+        	//int y = e.getY();
+        	int xSpot = x/65;
+        	//int ySpot = y/cellWidth;
+        	if(boardUI.gameStatus !=0) {
+        		gameOver(gameStatus);
+        		
+        		return;
+        	}
+        	if(mode == 0){
+        		if(xSpot>=0&&xSpot<7&&!dataProcess.isColFull(xSpot)) {
+        			playerNo = board.getPlayerID(turn);
+        			int ySpot = board.setPieceOnBoard(playerNo, xSpot);
+        			//output where did user clicked on
+        			MultiDraw.paintOnUI(xSpot,ySpot,playerNo);
+        			conditionVars = board.winCondition(playerNo, 4);//
+        			if(conditionVars[0] == 1) {
+        				System.out.println(conditionVars[1]);
+        				gameStatus = conditionVars[1];
+        				gameOver(conditionVars[1]);
+        				chessBoardPanel.repaint();
+        				return;
+        			}
+        		turn++;
+        		}
+        	}else if(mode == 1) {//PVE模式时的鼠标触发事件
+        		/*
+        		 *
+        		 * 
+        		 */
+        		if(xSpot>=0&&xSpot<7&&!dataProcess.isColFull(xSpot)) {
+        			playerNo=1;
+        		
+        			int ySpot = board.setPieceOnBoard(playerNo, xSpot);
+        			//output where did user clicked on
+        			MultiDraw.paintOnUI(xSpot,ySpot,playerNo);
+        			conditionVars = board.winCondition(playerNo, 4);//
+        			turn++;
+        			chessBoardPanel.repaint();
+        			if(conditionVars[0] == 1) {
+        				System.out.println(conditionVars[1]);
+        				gameOver(conditionVars[1]);
+        				
+        				//在这写个锁定窗口输入还有胜利弹窗
+        				return;
+        			}
+        			playerNo=2;
+        			int[][] dataOnBoard = board.readValueFromBoard();
+        			int col; 
+        			if(AIlvl==1){
+        				col=pveObj.AILevelOne(dataOnBoard);
+        			}else if(AIlvl ==2) {
+        					
+        					col=pveObj.AILevelTwo(dataOnBoard);
+        			}else{
+        					col=pveObj.AILEvelThree(dataOnBoard);
+        			}
+            	        ySpot = board.setPieceOnBoard(playerNo,col);
+            	        MultiDraw.paintOnUI(col,ySpot,playerNo);
+	        			conditionVars = board.winCondition(playerNo, 4);
+        			if(conditionVars[0] == 1) {
+        				System.out.println(conditionVars[1]);
+        				gameOver(conditionVars[1]);
+        				return;
+        			}
+        		}
+        		turn++;
+        	}
+        	//draw
+        	if(turn == 42){
+        		gameStatus = 3;
+        		gameOver(gameStatus);
+        		return;
+        	}
+        	chessBoardPanel.repaint();
 		}
 
 		@Override
@@ -308,11 +415,6 @@ public class menuUI
 		public void mouseExited(MouseEvent e) {
 			// TODO Auto-generated method stub
 			
-		}
-
-	}
-	 public static void main(String[] args){
-			new menuUI();
 		}
 }
 
