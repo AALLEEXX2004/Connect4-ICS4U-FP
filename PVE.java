@@ -18,6 +18,7 @@ public class PVE
         grid=this.grid;
     }
     
+    
     public int getDisc(int playerDisc){
         for(int i=0; i<grid.length;i++){
             for(int j=0; j<grid[i].length;j++){
@@ -109,30 +110,30 @@ public class PVE
      }
     }
 
-    public boolean CheckTwo (int grid[][]){
+    public int CheckTwo (int grid[][]){
     for(int i=0; i<grid.length; i++){
             for(int j =0; j < grid[i].length; j++){
                 
             //02020
             if(i<2){
-                   if ((grid[i][j]==grid[i+2][j])&&(grid[i+2][j]==grid[i+4][j])&&(grid[i+4][j]==0)&&(grid[i+1][j]==grid[i+2][j])&&grid[i+3][j]==2){
-                     placeDisc(grid,i,4);
-                     return true;
+                   if ((grid[i][j]==grid[i][j+2])&&(grid[i][j+2]==grid[i][j+4])&&(grid[i][j+4]==0)&&(grid[i][j+1]==grid[i][j+2])&&grid[i][j+3]==2){
+                     //placeDisc(grid,i,4);
+                     return j+2;
                    }
             }
             //0220
             if(i<3){
-                if((grid[i][j]==grid[i+3][j])&&(grid[i+3][j]==0)&&(grid[i+1][j]==grid[i+2][j])&&(grid[i+2][j]==2)){
-                    placeDisc(grid,i,4);
-                    return true;
+                if((grid[i][j]==grid[i][j+3])&&(grid[i][j+3]==0)&&(grid[i][j+1]==grid[i][j+2])&&(grid[i][j+2]==2)){
+                    //placeDisc(grid,i,4);
+                    return j;
                 }
             }
             
           }
         }
-        return false;
+        return 0;
     }
-    public boolean CheckThree(int grid[][], int DiscValue){
+    public int CheckThree(int grid[][], int DiscValue){
        for(int i=0; i<grid.length; i++){
             for(int j =0; j < grid[i].length; j++){
    
@@ -141,43 +142,43 @@ public class PVE
                    if((grid[i][j]+grid[i][j+1]+grid[i][j+2]+grid[i][j+3]==DiscValue*3)&&(grid[i][j]==0||grid[i][j+1]==0||grid[i][j+2]==0||grid[i][j+3]==0)){
                       if((grid[i][j]==0)){
                            if(i==grid.length){
-                               grid[i][j]=4;
-                               return true;
+                               //grid[i][j]=4;
+                               return j;
                             }
                             else if(CheckPlacement(grid,i,j)){
-                                grid[i][j]=4;
-                               return true;
+                               // grid[i][j]=4;
+                               return j;
                             }
                     }
-                    else if((grid[i+1][j]==0)){
+                    else if((grid[i][j+1]==0)){
                           if(i==grid.length){
-                               grid[i+1][j]=4;
-                               return true;
+                               //grid[i+1][j]=4;
+                               return j+1;
                             }
-                            else if(CheckPlacement(grid,i+1,j)){
-                                grid[i+1][j]=4;
-                               return true;
+                            else if(CheckPlacement(grid,i,j+1)){
+                                //grid[i+1][j]=4;
+                               return j+1;
                             }
                     }
-                       else if((grid[i+2][j]==0)){
+                       else if((grid[i][j+2]==0)){
                            if(i==grid.length){
-                               grid[i+2][j]=4;
-                               return true;
+                               //grid[i+2][j]=4;
+                               return j+2;
                             }
-                            else if(CheckPlacement(grid,i+2,j)){
-                                grid[i+2][j]=4;
-                               return true;
+                            else if(CheckPlacement(grid,i,j+2)){
+                                //grid[i+2][j]=4;
+                               return j+2;
                             }
                        
                     }
-                       else if((grid[i-3][j]==0)){
+                       else if((grid[i][j+3]==0)){
                        if(i==grid.length){
-                               grid[i+3][j]=4;
-                               return true;
+                               //grid[i+3][j]=4;
+                               return j+3;
                             }
-                            else if(CheckPlacement(grid,i+3,j)){
-                                grid[i+3][j]=4;
-                               return true;
+                            else if(CheckPlacement(grid,i,j+3)){
+                               // grid[i+3][j]=4;
+                               return j+3;
                             }
                     } 
                 }
@@ -185,8 +186,8 @@ public class PVE
     
             if((i+3)<=grid.length){
                    if((grid[i][j]+grid[i+1][j]+grid[i+2][j]+grid[i+3][j]==DiscValue*3)&&(grid[i][j]==0)){
-                       grid[i][j]=DiscValue;
-                        return true;
+                       //grid[i][j]=DiscValue;
+                        return j;
                         
                        }
                }
@@ -196,50 +197,50 @@ public class PVE
                    if((grid[i][j]+grid[i+1][j+1]+grid[i+2][j+2]+grid[i+3][j+3]==DiscValue*3)&&(grid[i][j]==0||grid[i+1][j+1]==0||grid[i+2][j+2]==0||grid[i+3][j+3]==0)){
                       if((grid[i][j]==0)){
                            if(i==grid.length){
-                               grid[i][j]=4;
-                               return true;
+                               //grid[i][j]=4;
+                               return j;
                             }
                             else if(CheckPlacement(grid,i,j)){
-                                grid[i][j]=4;
-                               return true;
+                                //grid[i][j]=4;
+                               return j;
                             }                      
                        }
                        else if((grid[i+1][i+1]==0)&&CheckPlacement(grid, i+1,j+1)){
-                           grid[i+1][j+1]=4;
-                           return true;
+                           //grid[i+1][j+1]=4;
+                           return j+1;
                            }
                         else if((grid[i+2][i+2]==0)&&CheckPlacement(grid, i+2,j+2)){
-                           grid[i+2][j+2]=4;
-                           return true;
+                           //grid[i+2][j+2]=4;
+                           return j+2;
                            }
                        else if((grid[i+3][i+3]==0)&&CheckPlacement(grid, i+3,j+3)){
-                           grid[i+3][j+3]=4;
-                           return true;
+                           //grid[i+3][j+3]=4;
+                           return j+3;
                            }
                 }   
             if(((i+3)<=grid.length-1)&&((j-3)>=0)){
                    if((grid[i][j]+grid[i-1][j+1]+grid[i-2][j+2]+grid[i-3][j+3]==DiscValue*3)&&(grid[i][j]==0||grid[i-1][j-1]==0||grid[i-2][j-2]==0||grid[i-3][j-3]==0)){
                        if((grid[i][j]==0)){
                            if(i==grid.length){
-                               grid[i][j]=4;
-                               return true;
+                              // grid[i][j]=4;
+                               return j;
                             }
                             else if(CheckPlacement(grid,i,j)){
-                                grid[i][j]=4;
-                               return true;
+                               // grid[i][j]=4;
+                               return j;
                             }                      
                        }
                        else if((grid[i-1][i+1]==0)&&CheckPlacement(grid, i-1,j+1)){
-                           grid[i-1][j+1]=4;
-                           return true;
+                           //grid[i-1][j+1]=4;
+                           return j+1;
                            }
                         else if((grid[i-2][i+2]==0)&&CheckPlacement(grid, i-2,j+2)){
-                           grid[i-2][j+2]=4;
-                           return true;
+                           //grid[i-2][j+2]=4;
+                           return j+2;
                            }
                        else if((grid[i-3][i+3]==0)&&CheckPlacement(grid, i-3,j+3)){
-                           grid[i-3][j+3]=4;
-                           return true;
+                           //grid[i-3][j+3]=4;
+                           return j+3;
                            } 
                    }
             }
@@ -248,48 +249,49 @@ public class PVE
 
     }
 }
-return false;
- }   
+    return 0;
+}   
     
-    public void AILevelOne(int grid[][]){
+    public int AILevelOne(int grid[][]){
     boolean position;
       do{     
       Random rdm = new Random ();
       int choice = rdm.nextInt(8);
        position= placeDisc(grid, choice, AIDisc);
        if(position == true){
-           break;
+           return choice;
+           
        }
-      
+      return 0;
     }while(position==false);
-          
+     
     }
     
-public void AILevelTwo(int grid[][]){
-    if(CheckThree(grid,4)){
-        CheckThree(grid,4);
+public int AILevelTwo(int grid[][]){
+    if(CheckThree(grid,4)!=0){
+        return CheckThree(grid,4);
     }
-    else if(CheckTwo(grid)){
-        CheckTwo(grid);
-    }
-    else{
-        AILevelOne(grid);
-    }
-    }
-public void AiLEvelThree(int grid[][]){
-    if(CheckThree(grid,1)){
-       CheckThree(grid,1); 
-    }
-    else if(CheckThree(grid,4)){
-        CheckThree(grid,4);
-    }
-    else if(CheckTwo(grid)){
-        CheckTwo(grid);
+    else if(CheckTwo(grid)!=0){
+       return CheckTwo(grid);
     }
     else{
-        AILevelOne(grid);
+        return AILevelOne(grid);
     }
+    }
+public int AILEvelThree(int grid[][]){
+    if(CheckThree(grid,1)!=0){
+       return CheckThree(grid,1); 
+    }
+    else if(CheckThree(grid,4)!=0){
+       return CheckThree(grid,4);
+    }
+    else if(CheckTwo(grid)!=0){
+       return CheckTwo(grid);
+    }
+    else{
+      return  AILevelOne(grid);
+    }
+    
 }
-
-
+    
 }
