@@ -5,21 +5,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.*;
- /* 
- *author: Alex Liang
- *the window after the game over,
- *get who wins the game as parameter
- *
- *
- *
- */
+ 
 public class gameOverWindow extends JFrame implements ActionListener{
 	
 	
 	JPanel buttonsPanel = new JPanel();
 	JPanel InstrPanel = new JPanel();
 	JLabel InstrLabel = new JLabel();
-	JButton backButton = new JButton("Back to Menu");
+	JButton backButton = new JButton("Start New Game");
     JButton exitButton = new JButton("Exit");
     public gameOverWindow(int gameStatus) {
  
@@ -62,9 +55,10 @@ public class gameOverWindow extends JFrame implements ActionListener{
         if (command.equals("Exit")) {
         	System.exit(0);
         }
-        if(command.equals("Back to Menu")){
+        if(command.equals("Start New Game")){
         	//menuUI.main("");
-        	System.exit(0);
+        	menuUI.restart();
+        	dispose();
         }
         
       }
