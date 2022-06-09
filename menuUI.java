@@ -27,9 +27,9 @@ public class menuUI implements ActionListener,MouseListener
 	JFrame frame;
 	static JPanel chessBoardPanel;
 	JPanel infoPanel;
-	
+	static MultiDraw md;
 	private static dataProcess board ;
-	private static PVE pveObj ;
+	private static PVE pveObj;
 	
 	public static int rows = 6;
     public static int cols = 7;
@@ -47,7 +47,7 @@ public class menuUI implements ActionListener,MouseListener
 		JMenuBar menubar1=new JMenuBar();
 		menubar1=setMenuBar(menubar1);
 		frame.setJMenuBar(menubar1);
-		frame.setBackground(Color.lightGray);
+		frame.setBackground(Color.WHITE);
 		frame.setResizable(false);
 		
 		chessBoardPanel = new JPanel();
@@ -62,11 +62,11 @@ public class menuUI implements ActionListener,MouseListener
 		//actionListeners mouseListener = new actionListeners();
     	chessBoardPanel.addMouseListener(this);
 		infoPanel.setLocation(500,0);
-		infoPanel.setSize(WIDTH-BOARDWIDTH, HEIGHT);
+		infoPanel.setSize(200, HEIGHT);
 		infoPanel.setBackground(Color.GRAY);
 		//add components to frame 
-		
-		chessBoardPanel.add(new MultiDraw(chessBoardPanel.getSize()));
+		md=new MultiDraw(chessBoardPanel.getSize());
+		chessBoardPanel.add(md);
 
 	
 		frame.add(chessBoardPanel);
@@ -156,9 +156,10 @@ public class menuUI implements ActionListener,MouseListener
 	public void gameOver(int gameStatus) {
     	new gameOverWindow(gameStatus);
     }
-	public void restart() {
-
-		chessBoardPanel.add(new MultiDraw(chessBoardPanel.getSize()));
+	public static void restart() {
+		chessBoardPanel.remove(md);
+		md = new MultiDraw(chessBoardPanel.getSize());
+		chessBoardPanel.add(md);
 		chessBoardPanel.repaint();
 	}
 	public static class MultiDraw extends JPanel {
@@ -275,24 +276,28 @@ public class menuUI implements ActionListener,MouseListener
 	        	board =new dataProcess();
 	        	mode=0;
 	        	AIlvl = 0;
+	        	restart();
 	        	break;
 	        case "Easy":
 	        	System.out.println(command);
 	        	board =new dataProcess();
 	        	mode = 1;
 	        	AIlvl = 1;
+	        	restart();
 	        	break;
 	        case "Normal":
 	        	System.out.println(command);
 	        	board =new dataProcess();
 	        	mode = 1;
 	        	AIlvl = 2;
+	        	restart();
 	        	break;
 	        case "Hard":
 	        	System.out.println(command);
 	        	board =new dataProcess();
 	        	mode = 1;
 	        	AIlvl = 3;
+	        	restart();
 	        	break;
 	        case "History" :
 	        	System.out.println(command);
@@ -369,7 +374,7 @@ public class menuUI implements ActionListener,MouseListener
         				return;
         			}
         			playerNo=2;
-        			int[][] dataOnBoard = board.readValueFromBoard();
+        			int[][] dataOnBoard = dataProcess.readValueFromBoard();
         			int col; 
         			if(AIlvl==1){
         				col=pveObj.AILevelOne(dataOnBoard);

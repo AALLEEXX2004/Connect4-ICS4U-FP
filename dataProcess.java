@@ -158,6 +158,86 @@ public class dataProcess {
 			int [] conditionCode = {0,0,-1,-1,-1};
 			return conditionCode;
 		}
+	
+	
+	
+	public static int[] winCondition(int[][] grid,int playerNo,int requirePieceNum) {
+		 String requiredChess = "";
+			String numSerial;
+			
+			for(int i = 0; i<requirePieceNum;i++) {
+				requiredChess = requiredChess + playerNo;
+			}
+			//check on rows
+			for(int y=0;y<6;y++) {
+				numSerial = "";
+				for(int x=0;x<7;x++) {
+					numSerial = numSerial+grid[x][y];
+					if(numSerial.contains(requiredChess)){
+						int[] conditionCode  = {1,playerNo,x,y,0};
+						return conditionCode;
+					}
+				}
+				
+			}
+			
+			
+			//check on volumes
+			for(int x=0;x<7;x++) {
+				numSerial = "";
+				for(int y=0;y<6;y++) {
+					//System.out.println(x+"  "+y);
+					numSerial = numSerial+grid[x][y];
+					//System.out.println(numSerial);
+					if(numSerial.contains(requiredChess)){
+						int[] conditionCode  = {1,playerNo,x,y,1};
+						return conditionCode;
+					}
+				}
+			}
+
+			
+			
+	
+			int[][] coodination = new int[][] {{0,0},{0,1},{0,2},{0,3},{0,4},{0,5},{1,5},{2,5},{3,5},{4,5},{5,5},{6,5}};
+			int x,y;
+			for(int[] xy:coodination) {
+				x=xy[0];
+				y=xy[1];
+				numSerial="";
+				while(x<7&&y>=0) {
+					numSerial = numSerial+grid[x][y];
+					if(numSerial.contains(requiredChess)){
+						int[] conditionCode  = {1,playerNo,x,y,2};
+						return conditionCode;
+					}
+					x++;
+					y--;
+				}
+				
+			}
+			
+			
+			
+			 coodination = new int[][] {{6,0},{5,0},{4,0},{3,0},{2,0},{1,0},{0,0},{0,1},{0,2},{0,3},{0,4},{0,5}};
+			for(int[] xy:coodination) {
+				x=xy[0];
+				y=xy[1];
+				numSerial="";
+				while(x<7&&y<6) {
+					numSerial = numSerial+grid[x][y];
+					x++;
+					y++;
+					if(numSerial.contains(requiredChess)){
+						int[] conditionCode  = {1,playerNo,x,y,3};
+						return conditionCode;
+					}
+				}
+				
+			}
+			int [] conditionCode = {0,0,-1,-1,-1};
+			return conditionCode;
+	}
 	public static boolean isColFull(int columnNo) {
 		if(boardGrid[columnNo][0] !=0) {
 			return true;
