@@ -20,22 +20,23 @@ public class dataProcess {
 		boardGrid = grid;
 	}
 	public dataProcess() {
-		for(int x=0;x<7;x++) {
-			for(int y=0;y<6;y++) {
+		boardGrid = new int[6][7];
+		for(int x=0;x<6;x++) {
+			for(int y=0;y<7;y++) {
 				boardGrid[x][y]=0;
 			}
 		}
 	}
 	public int setPieceOnBoard(int playerID,int colNo) {
-		int y;
-		for (y=5;y>=0;y--) {
-			if(boardGrid[colNo][y]==0) {
-				boardGrid[colNo][y] = playerID;
-				return y;
+		int rowNo;
+		for (rowNo=5;rowNo>=0;rowNo--) {
+			if(boardGrid[rowNo][colNo]==0) {
+				boardGrid[rowNo][colNo] = playerID;
+				return rowNo;
 				
 			}
 		}
-		return y;
+		return rowNo;
 	}
 	public static int startPlayer() {
 		int playerID;
@@ -50,8 +51,8 @@ public class dataProcess {
 		int playerID = inputTimes%2+1;
 		return playerID;
 	}
-	public static int readValueFromBoard(int x, int y){
-		return boardGrid[x][y];
+	public static int readValueFromBoard(int cols, int rows){
+		return boardGrid[rows][cols];
 	}
 	
 	
@@ -69,18 +70,18 @@ public class dataProcess {
 		  * - for return variable
 		  * 	the value should in this format  (0,0,0,-1,-1)
 		  * 	- first value is find/not find the target chess row in board, 0 represent no, 1 represent yes
-		  * 		-ÓÎÏ·¼ÌÐø/½áÊø
+		  * 		-ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ï¿½/ï¿½ï¿½ï¿½ï¿½
 		  * 	- second represent whose chess row was find, 0 represent no row be found, 1: player1, 2: player2
-		  * 		-ÕÒµ½Ë­ÓÐÖ¸¶¨ÊýÄ¿Á¬×Ó
+		  * 		-ï¿½Òµï¿½Ë­ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½ï¿½Ä¿ï¿½ï¿½ï¿½ï¿½
 		  *		- 3rd,4th are coordination of the last chess in the founded target(from left to right, top to bottom)
 		  *		  	-1 means no value
-		  *			-3£¬4ÎªÁ¬×Ó×îºóÒ»¸ñµÄ×ø±ê£¬´Ó×óµ½ÓÒ£¬´ÓÉÏµ½ÏÂ 
+		  *			-3ï¿½ï¿½4Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê£¬ï¿½ï¿½ï¿½ï¿½ï¿½Ò£ï¿½ï¿½ï¿½ï¿½Ïµï¿½ï¿½ï¿½ 
 		  *		-5th is the founded chess row layout
-		  *			-1: no value	ÎÞ
-		  *			 0:horizontally	Ë®Æ½·½Ïò
-		  *			 1:vertically	´¹Ö±·½Ïò
-		  *			 2:diagonally(left top to right bottom)		×óÉÏÓÒÏÂÐ±
-		  *			 3:diagonally(left bottom to right top)		ÓÒÉÏ×óÏÂÐ±
+		  *			-1: no value	ï¿½ï¿½
+		  *			 0:horizontally	Ë®Æ½ï¿½ï¿½ï¿½ï¿½
+		  *			 1:vertically	ï¿½ï¿½Ö±ï¿½ï¿½ï¿½ï¿½
+		  *			 2:diagonally(left top to right bottom)		ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð±
+		  *			 3:diagonally(left bottom to right top)		ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð±
 		  */	
 		 String requiredChess = "";
 			String numSerial;
@@ -92,7 +93,7 @@ public class dataProcess {
 			for(int y=0;y<6;y++) {
 				numSerial = "";
 				for(int x=0;x<7;x++) {
-					numSerial = numSerial+boardGrid[x][y];
+					numSerial = numSerial+boardGrid[y][x];
 					if(numSerial.contains(requiredChess)){
 						int[] conditionCode  = {1,playerNo,x,y,0};
 						return conditionCode;
@@ -107,7 +108,7 @@ public class dataProcess {
 				numSerial = "";
 				for(int y=0;y<6;y++) {
 					//System.out.println(x+"  "+y);
-					numSerial = numSerial+boardGrid[x][y];
+					numSerial = numSerial+boardGrid[y][x];
 					//System.out.println(numSerial);
 					if(numSerial.contains(requiredChess)){
 						int[] conditionCode  = {1,playerNo,x,y,1};
@@ -126,7 +127,7 @@ public class dataProcess {
 				y=xy[1];
 				numSerial="";
 				while(x<7&&y>=0) {
-					numSerial = numSerial+boardGrid[x][y];
+					numSerial = numSerial+boardGrid[y][x];
 					if(numSerial.contains(requiredChess)){
 						int[] conditionCode  = {1,playerNo,x,y,2};
 						return conditionCode;
@@ -145,7 +146,7 @@ public class dataProcess {
 				y=xy[1];
 				numSerial="";
 				while(x<7&&y<6) {
-					numSerial = numSerial+boardGrid[x][y];
+					numSerial = numSerial+boardGrid[y][x];
 					x++;
 					y++;
 					if(numSerial.contains(requiredChess)){
@@ -172,7 +173,7 @@ public class dataProcess {
 			for(int y=0;y<6;y++) {
 				numSerial = "";
 				for(int x=0;x<7;x++) {
-					numSerial = numSerial+grid[x][y];
+					numSerial = numSerial+grid[y][x];
 					if(numSerial.contains(requiredChess)){
 						int[] conditionCode  = {1,playerNo,x,y,0};
 						return conditionCode;
@@ -187,7 +188,7 @@ public class dataProcess {
 				numSerial = "";
 				for(int y=0;y<6;y++) {
 					//System.out.println(x+"  "+y);
-					numSerial = numSerial+grid[x][y];
+					numSerial = numSerial+grid[y][x];
 					//System.out.println(numSerial);
 					if(numSerial.contains(requiredChess)){
 						int[] conditionCode  = {1,playerNo,x,y,1};
@@ -206,7 +207,7 @@ public class dataProcess {
 				y=xy[1];
 				numSerial="";
 				while(x<7&&y>=0) {
-					numSerial = numSerial+grid[x][y];
+					numSerial = numSerial+grid[y][x];
 					if(numSerial.contains(requiredChess)){
 						int[] conditionCode  = {1,playerNo,x,y,2};
 						return conditionCode;
@@ -225,7 +226,7 @@ public class dataProcess {
 				y=xy[1];
 				numSerial="";
 				while(x<7&&y<6) {
-					numSerial = numSerial+grid[x][y];
+					numSerial = numSerial+grid[y][x];
 					x++;
 					y++;
 					if(numSerial.contains(requiredChess)){
@@ -239,7 +240,7 @@ public class dataProcess {
 			return conditionCode;
 	}
 	public static boolean isColFull(int columnNo) {
-		if(boardGrid[columnNo][0] !=0) {
+		if(boardGrid[0][columnNo] !=0) {
 			return true;
 		}
 		return false;

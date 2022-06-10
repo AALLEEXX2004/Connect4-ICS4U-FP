@@ -436,7 +436,7 @@ public class PVE
     int choice;
       do{     
       Random rdm = new Random ();
-      choice = rdm.nextInt(6);
+      choice = rdm.nextInt(7);
        position= placeDisc(grid, choice, AIDisc);
        if(position == true){
            return choice;
